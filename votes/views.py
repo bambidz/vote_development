@@ -8,7 +8,7 @@ from django.http import HttpResponseRedirect, JsonResponse
 from django.urls import reverse, reverse_lazy
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import (
-    ListView, CreateView, UpdateView, View
+    ListView, CreateView, UpdateView, View, DetailView
 )
 from django.core.exceptions import ObjectDoesNotExist
 # from django.views.generic.edit import FormMixin
@@ -18,6 +18,7 @@ import pytz
 # from django.db.models import Count, Q
 
 from .models import Question, Response
+from accounts.models import Student
 from learninglab.decorators import student_required, teacher_required
 from . import mixins
 # from .forms import VoteForm
@@ -32,10 +33,23 @@ class QuestionListView(ListView):
 class QuestionView(View):
     # model = Question
     def get(self, request, *args, **kwargs):
-        question = get_object_or_404(Question, pk=kwargs["pk"])   
+        response_list = Response.objects.filter(question = kwargs["pk"])
+        student_list = Student.objects.filter(section = kwargs["se"]).order_by('group')
+        question = get_object_or_404(Question, pk=kwargs["pk"])
+
+        response_status = []
+
+        for i in range(len(student_list)):
+            response_status.append([])
+            response_status[i].append(student_list[i])
+            response_status[i].append(0)
+            for j in range(len(response_list)):
+                if response_list[j].student == response_status[i][0]:
+                    response_status[i][1] = 1
+
         return render(request,
             "votes/question_detail.html",
-            {"question": question})
+            {"question": question, "response_status": response_status, "response_list" : response_list})
 
     def post(self, request, *args, **kwargs):
         question = get_object_or_404(Question, pk=kwargs["pk"])
@@ -59,7 +73,10 @@ class QuestionView(View):
             qs.update(is_active=False)
             qs.update(code=0)
             return HttpResponseRedirect(reverse("votes:list"))
-        return redirect("votes:detail", pk=kwargs["pk"])
+        elif "_status" in self.request.POST:
+            print("Get Status")
+            return redirect("votes:status", pk=kwargs["pk"])
+        return redirect("votes:detail", pk=kwargs["pk"], se=kwargs["se"])
 
     
 # for voting count
@@ -295,3 +312,14 @@ def chart_data(request, pk):
         }
 
     return JsonResponse(chart)
+
+
+@method_decorator(teacher_required, name='dispatch')
+class ResponseStatusView(ListView):
+        def get(self, request, *args, **kwargs):
+            response_list = Response.objects.filter(question = kwargs["pk"]).order_by('student')
+            student_list = Student.objects.all()
+            #question = get_object_or_404(Question, pk=kwargs["pk"])   
+            return render(request,
+                "votes/response_list.html",
+                {"response_list": response_list,"student_list": student_list})
