@@ -26,7 +26,7 @@ from django.contrib.auth import get_user_model
 from accounts.models import Student, Major
 from courses.models import Section, Group
 
-User = get_user_model()
+User = get_user_model()  
 
 ### group or user? ###
 switch = 3

@@ -16,5 +16,5 @@ urlpatterns = [
     path('plot/q<int:pk>', views.json_example, name='plot'),
     path('plot/data<int:pk>/', views.chart_data, name='chart_data'),
     path('ajax/count<int:pk>', views.count_voting, name='counting'),
-    path('q<int:pk>/status', views.ResponseStatusView.as_view(), name='status'),
+    # path('q<int:pk>/status', views.ResponseStatusView.as_view(), name='status'),
 ]

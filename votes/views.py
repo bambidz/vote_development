@@ -73,9 +73,9 @@ class QuestionView(View):
             qs.update(is_active=False)
             qs.update(code=0)
             return HttpResponseRedirect(reverse("votes:list"))
-        elif "_status" in self.request.POST:
-            print("Get Status")
-            return redirect("votes:status", pk=kwargs["pk"])
+       # elif "_status" in self.request.POST:
+       # print("Get Status")
+       #     return redirect("votes:status", pk=kwargs["pk"])
         return redirect("votes:detail", pk=kwargs["pk"], se=kwargs["se"])
 
     
@@ -314,6 +314,8 @@ def chart_data(request, pk):
     return JsonResponse(chart)
 
 
+
+# Just for testing.
 @method_decorator(teacher_required, name='dispatch')
 class ResponseStatusView(ListView):
         def get(self, request, *args, **kwargs):
