@@ -36,6 +36,10 @@
                     <input type="submit", class="secondary button", value="2nd Vote", name="_vote_again">
                     <input type="submit", class="alert button", value="Plot", name="_plot">
                     <input type="submit", class="button", value="List", name="_list">
+
+
+
+</select>​
         <!--            <input type="submit", class="secondary button", value="Voting Status", name="_status">-->
                 </form>
             </div>
@@ -46,22 +50,58 @@
 
 <!-- Show current voting status-->
 
-    {% if response_status %}
+<!--    {% if response_status %}
     <div>
 
     <table>
 
         <tbody>
+
             {% for response in response_status %}
                 {% if response.1 is 1 %}
                     <td style="background-color: lightgreen;">{{response.0.name}}</td>
                 {%else%}
-                    <td>{{response.0.name}} {{response.1}}</td>
+                    <td>{{response.0.name}}</td>
                 {% endif %}
             {% endfor %}
         </tbody>
 
     </table>
+-->
+    <table><tbody>
+    {% for group_response in response_status %}
+        
+
+
+            {% if forloop.counter == 4 or forloop.counter == 8 or forloop.counter == 12 or forloop.counter == 16 or forloop.counter == 20 %}
+                <tr>
+            {% endif %}
+
+                <td>
+                <table class = table-inner ><tbody>
+                <tr><th>{{group_response.0.0.group.group_no}}</th></tr>
+
+
+                {% for response in group_response %}
+                    <tr>
+                    {% if response.1 is 1 %}
+                        <td style= "background-color : lightgreen;">{{response.0.name}}</td>
+                    {%else%}
+                        <td>{{response.0.name}}</td>
+                    {% endif %}
+                    </tr>
+                {% endfor %}
+                </tbody></table>
+                </td>
+
+            {% if forloop.counter == 4 or forloop.counter == 8 or forloop.counter == 12 or forloop.counter == 16 or forloop.counter == 20 %}
+                </tr>
+            {% endif %}
+ 
+
+    {% endfor %}
+    </tbody></table>
+
 
 <!--        For testing       -->
     <table>

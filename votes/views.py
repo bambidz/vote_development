@@ -19,6 +19,7 @@ import pytz
 
 from .models import Question, Response
 from accounts.models import Student
+from courses.models import Section
 from learninglab.decorators import student_required, teacher_required
 from . import mixins
 # from .forms import VoteForm
@@ -34,22 +35,31 @@ class QuestionView(View):
     # model = Question
     def get(self, request, *args, **kwargs):
         response_list = Response.objects.filter(question = kwargs["pk"])
-        student_list = Student.objects.filter(section = kwargs["se"]).order_by('group')
+        student_list = Student.objects.filter(section__section_no = kwargs["se"]).order_by('group')
         question = get_object_or_404(Question, pk=kwargs["pk"])
+        section_list = Section.objects.all();
 
         response_status = []
 
-        for i in range(len(student_list)):
+        # make data for table.
+
+        for i in range(max(student_list, key = lambda student: student.group.group_no).group.group_no):
             response_status.append([])
-            response_status[i].append(student_list[i])
-            response_status[i].append(0)
-            for j in range(len(response_list)):
-                if response_list[j].student == response_status[i][0]:
-                    response_status[i][1] = 1
+            temp_list = [p for p in range(len(student_list)) if student_list[p].group.group_no == i+1]
+            for j in range(len(temp_list)):
+                response_status[i].append([])
+                response_status[i][j].append(student_list[temp_list[j]])
+                response_status[i][j].append(0)
+                for k in range(len(response_list)):
+                    if response_list[k].student == response_status[i][j][0]:
+                        #if response_list[k].
+                        response_status[i][j][1] = 1
+
 
         return render(request,
             "votes/question_detail.html",
-            {"question": question, "response_status": response_status, "response_list" : response_list})
+            {"question": question, "response_status": response_status, "section_list": section_list})
+
 
     def post(self, request, *args, **kwargs):
         question = get_object_or_404(Question, pk=kwargs["pk"])

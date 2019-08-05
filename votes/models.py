@@ -35,7 +35,7 @@ class Question(models.Model):
         return f"(Lecture {self.lecture.order}) {self.title}"
 
     def get_absolute_url(self):
-        return reverse('votes:detail', kwargs={'pk': self.pk, 'se': '1'})
+        return reverse('votes:detail', kwargs={'pk': self.pk, 'se': '41'})
 
 
 class Response(models.Model):

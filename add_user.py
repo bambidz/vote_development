@@ -29,7 +29,7 @@ from courses.models import Section, Group
 User = get_user_model()  
 
 ### group or user? ###
-switch = 3
+switch = 1
 
 ### Course Info ###
 year = 2019
