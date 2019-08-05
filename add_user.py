@@ -8,7 +8,7 @@ import csv
 
 ###########################
 # for 2019 summer project
-proj_path = "/Users/Jun/virtualmachines/ubuntu/learninglab/"
+proj_path = "/Users/Bambiz/Dev/git/voting-app-new/voting-app/"
 # This is so Django knows where to find stuff.
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "learninglab.settings.local")
 sys.path.append(proj_path)
@@ -26,7 +26,7 @@ from django.contrib.auth import get_user_model
 from accounts.models import Student, Major
 from courses.models import Section, Group
 
-User = get_user_model()
+User = get_user_model()  
 
 ### group or user? ###
 switch = 3
@@ -60,7 +60,7 @@ if switch == 2:
     #########################
     ##### create majors #####
     #########################
-    with open("/Users/Jun/virtualmachines/ubuntu/learninglab/major_list.csv") as f:
+    with open("/Users/Bambiz/Dev/git/voting-app-new/voting-app/major_list.csv",encoding = 'UTF8') as f:
         majors = []
         for line in csv.reader(f):
             line = "".join(line)
@@ -78,7 +78,7 @@ if switch == 3:
     #     users = [tuple(line) for line in csv.reader(f)]
 
     # for 2019 summer project
-    with open("/Users/Jun/virtualmachines/ubuntu/learninglab/accounts_list.csv") as f:
+    with open("/Users/Bambiz/Dev/git/voting-app-new/voting-app/accounts_list.csv", encoding = 'UTF8') as f:
         users = [tuple(line) for line in csv.reader(f)]
     # print(users)
 

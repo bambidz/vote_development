@@ -1,6 +1,6 @@
 # accounts/views.py
 from django.urls import reverse_lazy
-from django.views.generic import CreateView
+from django.views.generic import CreateView, ListView
 from django.views.generic.base import TemplateView
 from django.shortcuts import redirect, render
 from django.utils.decorators import method_decorator
@@ -10,6 +10,7 @@ from .forms import SignUpForm
 # from .resources import StudentResource
 from learninglab.decorators import student_required, teacher_required
 
+from django.conf import settings # 추천!
 
 class SignUp(CreateView):
     form_class = SignUpForm
@@ -35,3 +36,7 @@ def login_success(request):
         return redirect('votes:voting')
     else:
         return redirect('votes:list')
+
+#class MyPageView(settings.AUTH_USER_MODEL, ListView):
+#    __metaclass__= ListView()
+#    model = self.request.user

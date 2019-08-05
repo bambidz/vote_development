@@ -36,11 +36,56 @@
                     <input type="submit", class="secondary button", value="2nd Vote", name="_vote_again">
                     <input type="submit", class="alert button", value="Plot", name="_plot">
                     <input type="submit", class="button", value="List", name="_list">
+        <!--            <input type="submit", class="secondary button", value="Voting Status", name="_status">-->
                 </form>
             </div>
         </div>
     </div> 
+
+    <br><br><br>
+
+<!-- Show current voting status-->
+
+    {% if response_status %}
+    <div>
+
+    <table>
+
+        <tbody>
+            {% for response in response_status %}
+                {% if response.1 is 1 %}
+                    <td style="background-color: lightgreen;">{{response.0.name}}</td>
+                {%else%}
+                    <td>{{response.0.name}} {{response.1}}</td>
+                {% endif %}
+            {% endfor %}
+        </tbody>
+
+    </table>
+
+<!--        For testing       -->
+    <table>
+
+        <tbody>
+            {% for response in response_list %}
+                <td>{{response}}</td>
+            {% endfor %}
+        </tbody>
+
+    </table>
+
+<!--                 -->
+
+    </div>
+
+    {% else %}
+    <p> There are no responses in the response list.</p>
+    {% endif %}
+
+
 {% endblock %}
+
+
 
 {% block javascript %}
     <!-- <script>

@@ -1,0 +1,20 @@
+
+{% extends "base.html" %}
+
+{% block title %} Votes | {{block.super}} {% endblock %}
+
+{% block content %}
+    {% if response_list %}
+    <ul>
+        {% for response in response_list %}
+        <li>
+            <!--
+            <a href="{{ response.get_absolute_url }}"> {{ response.student.group }}</a>-->
+            <a href="{{ response.get_absolute_url }}"> {{ response }}</a>            
+        </li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p> There are no responses in the response list.</p>
+    {% endif %}
+{% endblock %}
