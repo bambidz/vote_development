@@ -30,6 +30,9 @@ class Student(models.Model):
 
     def __str__(self):
         return self.user.username
+    
+    def get_username(self):
+        return self.user.username
 
     # def get_absolute_url(self):
     #    return reverse('votes:edit', kwargs={'pk': self.pk})
