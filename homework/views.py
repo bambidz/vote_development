@@ -10,8 +10,8 @@ from django.http import HttpResponse
 from learninglab.decorators import student_required, teacher_required
 
 from django.conf import settings # 추천!
-import datetime
 
+from datetime import datetime
 #from accounts.models import Student, User
 
 from .models import *
@@ -33,9 +33,12 @@ class HomeworkListView(View):
 
 
         
-        return render(request, 'homework/homework_list.html', {'homework_list': hm})
+        return render(request, 'homework/homework_list2.html', {'homework_list': hm})
 
 
+
+
+### Django Model API : http://pythonstudy.xyz/python/article/310-Django-%EB%AA%A8%EB%8D%B8-API
 
 ### Handle the request FROM ajax 
 class HomeworkStartView(View):
@@ -47,13 +50,17 @@ class HomeworkStartView(View):
 
         
         ### Get the Start Time
-        now = datetime.datetime.now()
+        now = datetime.now()
         print(user_id,  "START on HW ", hw_no," AT :", now)
-
         
-        ### Save the info in DB
+
+        s_instance = get_student_info(user_id)
+        h_instance = Homework.objects.get(title=hw_no) #section을 타고 course를 타야한다.
 
 
+        ### Save the info in DB(HomeworkTraker)
+        ht = HomeworkTraker(Student = s_instance, Homework = h_instance, start_time=datetime.now(), end_time=datetime.now())
+        ht.save()
 
         return HttpResponse(status=200)
 
