@@ -2,7 +2,6 @@ table {
   font-size: 20px;
   font-weight: 100px;
   border:none;
-  vertical-align: super;
 }
 
 .table-inner {
@@ -11,7 +10,7 @@ table {
   border-collapse: collapse;
   /*margin: auto;*/
   padding:5px;
-  width: 250px !important;
+  width: 200px !important;
 }
 
 td {
@@ -53,3 +52,8 @@ td.text-center {
 td.text-right {
   text-align: right;
 }
+
+#top{ 
+  vertical-align: top;
+}
+

@@ -49,7 +49,11 @@
 
 <!-- Show current voting status-->
     <div>
-    <table><tbody>
+    <table>
+        <th class = "text-center" colspan = 4>Screen</th>
+
+        <tbody>
+
     {% for group_response in response_status %}
         
 
@@ -58,7 +62,7 @@
                 <!--<tr> -->
             {% endif %}
 
-                <td>
+                <td id = "top">
                 <table class = table-inner ><tbody>
                 <tr><th>{{group_response.0.0.group.group_no}}</th></tr>
 
