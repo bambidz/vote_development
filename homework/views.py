@@ -1,21 +1,19 @@
 # homework/views.py
-
+from datetime import datetime
 from django.shortcuts import render
 from django.urls import reverse_lazy
-from django.views.generic import CreateView, ListView, View
-from django.views.generic.base import TemplateView
-from django.shortcuts import redirect, render
-from django.utils.decorators import method_decorator
 from django.http import HttpResponse
+from django.shortcuts import redirect, render
+from django.views.generic.base import TemplateView
+from django.utils.decorators import method_decorator
+from django.views.generic import CreateView, ListView, View
 from learninglab.decorators import student_required, teacher_required
-
 from django.conf import settings # 추천!
 
-from datetime import datetime
-#from accounts.models import Student, User
 
 from .models import *
 from accounts.models import *
+from courses.models import *
 
 
 class HomeworkListView(View):
@@ -24,16 +22,30 @@ class HomeworkListView(View):
         ### Who is user?
         user_id = request.user.get_username()
         student = get_student_info(user_id)
-        #TODO : 여기서 section_id 로 Section Table에서 해당하는 Course ID를 GET
-        print(student.section_id)
+        
 
-        #TODO: get the submit link form where?
         ### Get homework list for the user
         hm = Homework.objects.all() #TODO: 여기에 Course ID로 filtering
 
 
+        ### Make a Pre-filled Google Forms URL with user params
+        google_forms_url = "https://docs.google.com/forms/d/e/1FAIpQLSf2FEAl6FRZP3kaf5lVaXRU3NRqfmrh-9IIhjxm-weolROamQ/viewform"
+        name_field = "entry.1053894363"
+        std_id_field = "entry.1441140489"
+        section_field = "entry.580230306"
+        hw_no_field = "entry.383023472"
         
-        return render(request, 'homework/homework_list2.html', {'homework_list': hm})
+        personal_url_params =  google_forms_url + "?" + \
+                                name_field+"="+student.name + \
+                                "&" + std_id_field + "=" + str(student.student_no) + \
+                                "&" + section_field + "=" + str(Section.objects.get(pk = student.section_id).section_no) + \
+                                "&" + hw_no_field + "="
+
+
+        
+
+
+        return render(request, 'homework/homework_list2.html', {'homework_list': hm, 'google_forms_url':personal_url_params})
 
 
 
@@ -44,7 +56,7 @@ class HomeworkListView(View):
 class HomeworkStartView(View):
     def get(self, request):
         
-        ### Parse Params from url -> user_id & hw No 
+        ### Parse Params from url
         user_id = self.request.GET.get('user_id')
         hw_no = self.request.GET.get('hw_name')
 
@@ -62,6 +74,13 @@ class HomeworkStartView(View):
         ht = HomeworkTraker(Student = s_instance, Homework = h_instance, start_time=datetime.now(), end_time=datetime.now())
         ht.save()
 
+        return HttpResponse(status=200)
+
+
+
+class HomeworkEndtView(View):
+    def get(self, request):
+        
         return HttpResponse(status=200)
 
 

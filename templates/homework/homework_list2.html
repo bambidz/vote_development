@@ -76,7 +76,7 @@
                     </ul>
                   </div>
                 </div>
-              
+              {{google_forms_url}}
               <div class="grid-container">
                   <div class="grid-x grid-padding-x">
                     <div class="large-12 cell">
@@ -328,7 +328,7 @@
                                         <td class=" ">Paid</td>
                                         <!--onClick="window.open('/media/{{e.contents}}')"-->
                                         <td class="a-right a-right "><button type="button"  class="btn btn-round btn-default btn_show"  onClick="window.open('/media/{{e.contents}}')" hw_name={{e.title}} data-resource={{e.contents}}>Show</button></td>
-                                        <td class=" last"><a href="#"><button type="button" class="btn btn-round btn-default btn_submit" hw_name={{e.title}} data-resource={{e.contents}}>Submit</button></a>
+                                        <td class=" last"><a href="#"><button type="button" class="btn btn-round btn-default btn_submit" onClick = "window.open('{{google_forms_url}} {{e.title}}')" >Submit</button></a>
                                         </td>
                                         </tr>
 
