@@ -45,7 +45,7 @@ class HomeworkListView(View):
         
 
 
-        return render(request, 'homework/homework_list2.html', {'homework_list': hm, 'google_forms_url':personal_url_params})
+        return render(request, 'homework/homework_list.html', {'homework_list': hm, 'google_forms_url':personal_url_params})
 
 
 
@@ -78,7 +78,7 @@ class HomeworkStartView(View):
 
 
 
-class HomeworkEndtView(View):
+class HomeworkEndView(View):
     def get(self, request):
         
         return HttpResponse(status=200)

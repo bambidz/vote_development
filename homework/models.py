@@ -2,16 +2,22 @@ from django.db import models
 from courses.models import Course
 from accounts.models import Student
 
+
 class Homework(models.Model):
     title = models.CharField(max_length=255)
     contents = models.FileField(upload_to='homework/')
+    #contents = models.FileField(upload_to=get_file_path())
     Course = models.ForeignKey(Course, on_delete=models.CASCADE, null=True)
     
     is_active = models.IntegerField(default=0)
 
+    class Meta:
+        unique_together = (('title', 'Course'),)
 
     def __str__(self):
         return f"(Homework {self.title})"
+
+        
 
 
 class HomeworkTraker(models.Model):
