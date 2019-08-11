@@ -11,7 +11,6 @@
     <th>Due Date</th>
     <th>Available</th>
     <th>Show</th>
-    <th>Submit</th>
   </tr>
   </thead>
   <tbody>
@@ -29,10 +28,8 @@
                   <p> o </p>
                 {% endif %}
               </td>
-
-              <td><button type="button"  class="btn_show"  onClick="window.open('/media/{{e.contents}}')" hw_name={{e.title}} data-resource={{e.contents}}>Show</button></td>
-              <td><a href="#"><button type="button" class="btn_submit" onClick = "window.open('{{google_forms_url}} {{e.title}}')" >Submit</button></a>
-              </td>
+              <!--onClick="window.open('/media/{{e.contents}}')"-->
+              <td><button type="button"  class="btn_show"  onClick="window.open('/homework/detail/{{e.title}}')" hw_name={{e.title}} data-resource={{e.contents}}>Show</button></td>
               </tr>
 
       {% endfor %}       

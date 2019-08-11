@@ -28,26 +28,62 @@ class HomeworkListView(View):
         hm = Homework.objects.all() #TODO: 여기에 Course ID로 filtering
 
 
-        ### Make a Pre-filled Google Forms URL with user params
-        google_forms_url = "https://docs.google.com/forms/d/e/1FAIpQLSf2FEAl6FRZP3kaf5lVaXRU3NRqfmrh-9IIhjxm-weolROamQ/viewform"
-        name_field = "entry.1053894363"
-        std_id_field = "entry.1441140489"
-        section_field = "entry.580230306"
-        hw_no_field = "entry.383023472"
+        # ### Make a Pre-filled Google Forms URL with user params
+        # google_forms_url = "https://docs.google.com/forms/d/e/1FAIpQLSf2FEAl6FRZP3kaf5lVaXRU3NRqfmrh-9IIhjxm-weolROamQ/viewform"
+        # name_field = "entry.1053894363"
+        # std_id_field = "entry.1441140489"
+        # section_field = "entry.580230306"
+        # hw_no_field = "entry.383023472"
         
-        personal_url_params =  google_forms_url + "?" + \
-                                name_field+"="+student.name + \
-                                "&" + std_id_field + "=" + str(student.student_no) + \
-                                "&" + section_field + "=" + str(Section.objects.get(pk = student.section_id).section_no) + \
-                                "&" + hw_no_field + "="
+        # personal_url_params =  google_forms_url + "?" + \
+        #                         name_field+"="+student.name + \
+        #                         "&" + std_id_field + "=" + str(student.student_no) + \
+        #                         "&" + section_field + "=" + str(Section.objects.get(pk = student.section_id).section_no) + \
+        #                         "&" + hw_no_field + "="
 
 
         
 
 
-        return render(request, 'homework/homework_list.html', {'homework_list': hm, 'google_forms_url':personal_url_params})
+        return render(request, 'homework/homework_list.html', {'homework_list': hm})
 
 
+
+
+def HomeworkDetailView(request, no):
+    user_id = request.user.get_username()
+    student = get_student_info(user_id)
+    
+    #hw = Homework.objects.get(title=no, Course = get_user_course_id(user_id))
+    hw = Homework.objects.get(title=no)
+    
+
+    ### Make a Pre-filled Google Forms URL with user params
+    google_forms_url = "https://docs.google.com/forms/d/e/1FAIpQLSf2FEAl6FRZP3kaf5lVaXRU3NRqfmrh-9IIhjxm-weolROamQ/viewform"
+    name_field = "entry.1053894363"
+    std_id_field = "entry.1441140489"
+    section_field = "entry.580230306"
+    hw_no_field = "entry.383023472"
+    
+    personal_url_params =  google_forms_url + "?" + \
+                            name_field+"="+student.name + \
+                            "&" + std_id_field + "=" + str(student.student_no) + \
+                            "&" + section_field + "=" + str(Section.objects.get(pk = student.section_id).section_no) + \
+                            "&" + hw_no_field + "="
+
+    return render(request, 'homework/homework_detail.html', {'hw':hw, 'google_forms_url':personal_url_params})
+
+
+
+
+# def get_user_course_id(user_id):
+#     std_list = Student.objects.all()
+#     for n in std_list:
+#         if n.get_username() == user_id:
+#             n.section
+            
+#             return 3
+#     return 3
 
 
 ### Django Model API : http://pythonstudy.xyz/python/article/310-Django-%EB%AA%A8%EB%8D%B8-API

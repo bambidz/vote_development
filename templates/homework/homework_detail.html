@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block title %} HomeWork | {{block.super}} {% endblock %}
+
+{% block content %}
+
+    <h3>Video Clips : </h3>
+
+    <a href={{hw.video_clip_link_1}} target="_blank" >{{hw.video_clip_name_1}}</a>
+    <br><br>
+    <a href={{hw.video_clip_link_2}} target="_blank" >{{hw.video_clip_name_2}}</a>
+    
+    <br><br>    <br><br>
+
+    <h3>Quetions : </h3>
+
+
+    <br><br>    <br><br>
+    <h3>Submit : </h3>
+    <button type="button" class="btn_submit" onClick = "window.open('{{google_forms_url}} {{hw.title}}')" >Submit</button>
+
+
+
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function(){
+           $("a").click(function(){
+               alert("You've clicked the link.");
+           });
+        });
+    </script>
+
+{% endblock %}

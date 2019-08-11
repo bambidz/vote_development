@@ -5,9 +5,17 @@ from accounts.models import Student
 
 class Homework(models.Model):
     title = models.CharField(max_length=255)
+
     contents = models.FileField(upload_to='homework/')
-    #contents = models.FileField(upload_to=get_file_path())
     Course = models.ForeignKey(Course, on_delete=models.CASCADE, null=True)
+    
+
+    video_clip_name_1 = models.CharField(max_length=255, null=True)
+    video_clip_link_1 = models.CharField(max_length=255, null=True)
+    video_clip_name_2 = models.CharField(max_length=255, null=True)
+    video_clip_link_2 = models.CharField(max_length=255, null=True)
+
+
     
     is_active = models.IntegerField(default=0)
 
