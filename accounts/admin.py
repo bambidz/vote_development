@@ -25,4 +25,7 @@ class CustomUserAdmin(UserAdmin):
 
 
 admin.site.register(Major)
-admin.site.register(User, CustomUserAdmin)
+#admin.site.register(User, CustomUserAdmin)
+
+admin.site.register(User)
+admin.site.register(Student)

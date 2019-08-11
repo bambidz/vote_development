@@ -2,7 +2,7 @@
 from django.db import models
 from django.urls import reverse
 
-from courses.models import Lecture
+from courses.models import Lecture, Section
 from accounts.models import Student
 
 
@@ -35,7 +35,7 @@ class Question(models.Model):
         return f"(Lecture {self.lecture.order}) {self.title}"
 
     def get_absolute_url(self):
-        return reverse('votes:detail', kwargs={'pk': self.pk, 'se': '41'})
+        return reverse('votes:detail', kwargs={'pk': self.pk, 'se': Section.objects.first().section_no})
 
 
 class Response(models.Model):

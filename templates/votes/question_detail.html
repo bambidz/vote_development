@@ -37,7 +37,18 @@
                     <input type="submit", class="alert button", value="Plot", name="_plot">
                     <input type="submit", class="button", value="List", name="_list">
 
-        <!--            <input type="submit", class="secondary button", value="Voting Status", name="_status">-->
+
+                    <select onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);">
+                        <option value="">Select...</option>
+
+                        {% for section in section_list %}
+                        <option value="/votes/q{{question.pk}}/{{section.section_no}}">{{section.section_no}}</option>
+
+                        {% endfor %}
+
+                    </select>
+
+
                 </form>
             </div>
         </div>
@@ -54,46 +65,53 @@
 
         <tbody>
 
-    {% for group_response in response_status %}
+            {% for group_response in response_status %}
         
+            {% cycle '<tr>' '' '' '' %}
 
 
-            {% if forloop.counter == 4 or forloop.counter == 8 or forloop.counter == 12 or forloop.counter == 16 or forloop.counter == 20 %}
-                <!--<tr> -->
-            {% endif %}
 
                 <td id = "top">
-                <table class = table-inner ><tbody>
-                <tr><th>{{group_response.0.0.group.group_no}}</th></tr>
+
+                <table class = table-inner style = "font-size : 15px" ><tbody>
+                <tr><th colspan = 2>{{group_response.0.0.group.group_no}}</th></tr>
 
 
                 {% for response in group_response %}
-                    <tr style = "height : 30px">
+                    
+                    {% if forloop.counter|divisibleby:2 %}
+                    {% else %}
+                        <tr>
+                    {% endif %}
+
                     {% if response.1 is 1 %}
                         <td style = "background-color : lightgreen">{{response.0.name}}</td>
                     {%else%}
                         <td>{{response.0.name}}</td>
                     {% endif %}
-                    </tr>
-                {% endfor %}
-                </tbody></table>
-                </td>
+                    
+                        
 
-            {% if forloop.counter == 4 or forloop.counter == 8 or forloop.counter == 12 or forloop.counter == 16 or forloop.counter == 20 %}
-                </tr>
-            {% endif %}
+                {% endfor %}
+
+             {% cycle '</tr>' '' '' '' %}
+            
+
+        </tbody></table>
+              
+                
+
  
 
     {% endfor %}
     </tbody></table>
-
+    </div>
 
 <!--        For testing       -->
 
 
 <!--                 -->
 
-    </div>
 
 
 
