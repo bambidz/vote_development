@@ -41,24 +41,60 @@ class QuestionView(View):
 
         response_status = []
 
-        # make data for table.
 
-        for i in range(max(student_list, key = lambda student: student.group.group_no).group.group_no):
+
+        # find groups that have 3 or more wrong answers.
+
+        wrong_counter1 = 0;
+        wrong_counter2 = 0;
+        wrong_group1= [];
+        wrong_group2= [];
+
+        # make data for student attendance table.
+        # group / students (student object, response existance(0 or 1 or 2 depending on vote)) / 
+
+        for i in range(max(student_list, key = lambda student: student.group.group_no).group.group_no): #전체 그룹들에 대하여
             response_status.append([])
             temp_list = [p for p in range(len(student_list)) if student_list[p].group.group_no == i+1]
-            for j in range(len(temp_list)):
+            for j in range(len(temp_list)):          # 그룹 안의 학생들에 한해서
                 response_status[i].append([])
                 response_status[i][j].append(student_list[temp_list[j]])
                 response_status[i][j].append(0)
                 for k in range(len(response_list)):
-                    if response_list[k].student == response_status[i][j][0]:
-                        #if response_list[k].
-                        response_status[i][j][1] = 1
+                    cur_response = response_list[k]
+                    if cur_response.student == response_status[i][j][0]: # 응답목록에 학생이 있는 경우.
+
+                        if cur_response.vote1:       # 첫번째 응답을 한 경우.
+                            response_status[i][j][1] = 1
+                            if cur_response.vote1 != question.correct_number:
+                                wrong_counter1 += 1
+                                #response_status[i][j][1] = 3 # for test
+
+                        if cur_response.vote2:        # 두번째 응답을 한 경우.
+                            response_status[i][j][1] = 2
+                            if cur_response.vote2 != question.correct_number:
+                                wrong_counter2 += 1
+                                #response_status[i][j][1] = 3 # for test
+
+                if wrong_counter1 >= 3:
+                    wrong_group1.append(i+1) #현재 그룹이 많이 틀렸으면 요주의 배열에 넣는다.
+                    wrong_counter1 = 0;
+                if wrong_counter2 >= 3:
+                    wrong_group2.append(i+1) #현재 그룹이 많이 틀렸으면 요주의 배열에 넣는다.
+                    wrong_counter2 = 0;
+
+            wrong_counter1 = 0; # for문 끝에서 초기화.
+            wrong_counter2 = 0;              
+
+        # make the groups unique. JUST IN CASE.
+        wrong_group1 = wrong_group1
+        wrong_group2 = wrong_group2
 
 
         return render(request,
             "votes/question_detail.html",
-            {"question": question, "response_status": response_status, "section_list": section_list})
+            {"question": question, "response_status": response_status, "section_list": section_list, 
+            "wrong_group1" : wrong_group1, "wrong_group2" : wrong_group2})
 
 
     def post(self, request, *args, **kwargs):
