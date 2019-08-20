@@ -1,5 +1,5 @@
 # homework/views.py
-from datetime import datetime
+import datetime
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.http import HttpResponse
@@ -14,6 +14,8 @@ from django.conf import settings # 추천!
 from .models import *
 from accounts.models import *
 from courses.models import *
+
+from django.utils import timezone
 
 
 class HomeworkListView(View):
@@ -93,22 +95,67 @@ class HomeworkStartView(View):
     def get(self, request):
         
         ### Parse Params from url
+        type_no = self.request.GET.get('type')
         user_id = self.request.GET.get('user_id')
         hw_no = self.request.GET.get('hw_name')
-
+        now = datetime.datetime.now()
         
-        ### Get the Start Time
-        now = datetime.now()
-        print(user_id,  "START on HW ", hw_no," AT :", now)
-        
-
         s_instance = get_student_info(user_id)
         h_instance = Homework.objects.get(title=hw_no) #section을 타고 course를 타야한다.
+        
+        ### It Not exist, make new one 
+        if not HomeworkTraker.objects.filter(Student=s_instance.pk, Homework=h_instance.pk).exists():
+            print("Nonono")
+            new_row = HomeworkTraker(Student=s_instance, Homework=h_instance)
+            new_row.save()
 
 
-        ### Save the info in DB(HomeworkTraker)
-        ht = HomeworkTraker(Student = s_instance, Homework = h_instance, start_time=datetime.now(), end_time=datetime.now())
-        ht.save()
+        if type_no == "hw":
+            
+            ### Get the Start Time
+            print(user_id,  "START on HW ", hw_no," AT :", now)
+
+
+            row = HomeworkTraker.objects.get(Student=s_instance.pk, Homework=h_instance.pk)    
+            if row.start_time == None:
+                row.start_time = now
+                row.save()
+
+
+        elif type_no == "video_1":
+
+            ### Get the Start Time
+            print(user_id,  "START on Video 1 of  ", hw_no," AT :", now)        
+
+
+            row = HomeworkTraker.objects.get(Student=s_instance.pk, Homework=h_instance.pk)    
+            if row.start_time_video_1 == None:
+                row.start_time_video_1 = now
+                row.save()
+
+        
+        elif type_no == "video_2":
+            print("video 2 start")
+            ### Get the Start Time
+            print(user_id,  "START on Video 2 of ", hw_no," AT :", now)
+
+
+            row = HomeworkTraker.objects.get(Student=s_instance.pk, Homework=h_instance.pk)    
+            if row.start_time_video_2 == None:
+                row.start_time_video_2 = now
+                row.save()
+
+
+        elif type_no == "video_3":
+            print("video 2 start")
+            ### Get the Start Time
+            print(user_id,  "START on Video 2 of ", hw_no," AT :", now)
+
+
+            row = HomeworkTraker.objects.get(Student=s_instance.pk, Homework=h_instance.pk)    
+            if row.start_time_video_3 == None:
+                row.start_time_video_3 = now
+                row.save()
 
         return HttpResponse(status=200)
 

@@ -20,7 +20,7 @@
           
               <tr>
               <td class=" ">{{e.title}}</td>
-              <td class=" ">{{e.contents}}</td>
+              <td class=" ">{{e.due_date}}</td>
               <td class=" ">
                 {% if e.is_active == 0 %}
                   <p> x </p>
@@ -49,7 +49,8 @@
       url:'api/v1/start',
       data: {
             user_id:"{{user.username}}",
-            hw_name : hw_name     
+            hw_name : hw_name,
+            type : "hw"     
       }, 
       success:function(data){
         var str = '';

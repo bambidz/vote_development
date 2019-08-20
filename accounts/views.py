@@ -13,6 +13,7 @@ from learninglab.decorators import student_required, teacher_required
 from django.conf import settings # 추천!
 
 from accounts.models import Student, User
+from grade.models import Grade
 
 
 class SignUp(CreateView):
@@ -57,8 +58,12 @@ class Student_MyPage(View):
         Info = self.get_student_info(user_id)
 
 
+        ### Get the User Score Info
+        score_info = Grade.objects.get(student=Info.pk)
+        
+
         ### Response
-        return render(request, 'accounts/student_mypage.html', {'Info': Info})
+        return render(request, 'accounts/student_mypage.html', {'Info': Info, 'score_info':score_info})
 
     #TODO: 
     def get_student_info(self, user_id):

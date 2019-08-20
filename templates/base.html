@@ -123,6 +123,22 @@
     <script src="{% static 'js/vendor/what-input.js' %}"></script>
     <script src="{% static 'js/vendor/foundation.js' %}"></script>
     <script src="{% static 'js/app.js' %}"></script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        // enable automatic line breaks (might look ugly)
+        CommonHTML: { linebreaks: { automatic: true } },
+        "HTML-CSS": { linebreaks: { automatic: true } },
+        SVG: { linebreaks: { automatic: true } },
+    
+        // enable $ for inline math -> use \$ for ordinary dollar-sign
+        tex2jax: {
+          inlineMath: [['$','$'], ['\\(','\\)']],
+          processEscapes: true
+        },
+      });
+    </script>
+    
     {% block javascript %}
     {% endblock %}
   </body>
