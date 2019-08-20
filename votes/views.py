@@ -44,7 +44,7 @@ class QuestionView(View):
 
 
         # find groups that have 3 or more wrong answers.
-
+        wrong_limit = 3;
         wrong_counter1 = 0;
         wrong_counter2 = 0;
         wrong_group1= [];
@@ -74,21 +74,21 @@ class QuestionView(View):
                             response_status[i][j][1] = 2
                             if cur_response.vote2 != question.correct_number:
                                 wrong_counter2 += 1
-                                #response_status[i][j][1] = 3 # for test
+                                # response_status[i][j][1] = 3 # for test
 
-                if wrong_counter1 >= 3:
+                if wrong_counter1 >= wrong_limit:
                     wrong_group1.append(i+1) #현재 그룹이 많이 틀렸으면 요주의 배열에 넣는다.
                     wrong_counter1 = 0;
-                if wrong_counter2 >= 3:
+                if wrong_counter2 >= wrong_limit:
                     wrong_group2.append(i+1) #현재 그룹이 많이 틀렸으면 요주의 배열에 넣는다.
                     wrong_counter2 = 0;
 
-            wrong_counter1 = 0; # for문 끝에서 초기화.
-            wrong_counter2 = 0;              
+            wrong_counter1 = 0 # for문 끝에서 초기화.
+            wrong_counter2 = 0              
 
         # make the groups unique. JUST IN CASE.
-        wrong_group1 = wrong_group1
-        wrong_group2 = wrong_group2
+        wrong_group1 = sorted(list(set(wrong_group1)))
+        wrong_group2 = sorted(list(set(wrong_group2)))
 
 
         return render(request,

@@ -111,7 +111,7 @@
                         <td style = "background-color : lightblue">{{response.0.name}}</td>
                     {% elif response.1 is 2 %} {# voting 두번 한 경우 #}
                         <td style = "background-color : lightgreen">{{response.0.name}}</td>
-                    {% elif response.1 is 3 %} {# voting 두번 한 경우 #}
+                    {% elif response.1 is 3 %} {# voting 을 틀린경우 / test 용. #}
                         <td style = "background-color : red">{{response.0.name}}</td>                    
                     {% else %}
                         <td>{{response.0.name}}</td>
