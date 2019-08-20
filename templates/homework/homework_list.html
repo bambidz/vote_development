@@ -1,0 +1,107 @@
+{% extends "base.html" %}
+
+{% block title %} HomeWork | {{block.super}} {% endblock %}
+
+{% block content %}
+
+<table>
+  <thead>
+  <tr>
+    <th>pre-class Numbur</th>
+    <th>Due Date</th>
+    <th>Available</th>
+    <th>Show</th>
+  </tr>
+  </thead>
+  <tbody>
+                                
+      {%for e in homework_list %}
+
+          
+              <tr>
+              <td class=" ">{{e.title}}</td>
+              <td class=" ">{{e.due_date}}</td>
+              <td class=" ">
+                {% if e.is_active == 0 %}
+                  <p> x </p>
+                {% else %}
+                  <p> o </p>
+                {% endif %}
+              </td>
+              <!--onClick="window.open('/media/{{e.contents}}')"-->
+              <td><button type="button"  class="btn_show"  onClick="window.open('/homework/detail/{{e.title}}')" hw_name={{e.title}} data-resource={{e.contents}}>Show</button></td>
+              </tr>
+
+      {% endfor %}       
+
+    </tbody>
+
+</table>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+<script>
+  $('.btn_show').click(function(){
+    var hw_name = $(this).attr('hw_name'); // div id = cmd_name
+    
+    $.ajax({
+      url:'api/v1/start',
+      data: {
+            user_id:"{{user.username}}",
+            hw_name : hw_name,
+            type : "hw"     
+      }, 
+      success:function(data){
+        var str = '';
+        for(var name in data){
+          str += '<li>'+name +'  :  '+ data[name]+'</li>';
+        }    
+        $(cmd_name+"_result").html('<ul>'+str+'</ul>');      
+      },
+      error:function(e){  
+        alert(e.responseText);  
+      }
+    })
+  })
+  
+      $('.btn_set').click(function(){
+        var cmd_name = '#'+$(this).attr('cmd_name'); // div id = cmd_name
+        var id = $(this).attr('cmd_name');
+        var params_list = document.getElementById(id).children; // html collection type
+        
+        // 1. 자바스크립트 객체 형태로 전달  
+        var params = {}; 
+        
+        // make json for request body...
+        for (let item of params_list) { // item is htmllielement type
+          var id = item.textContent+"_input";
+          params[item.textContent] = document.getElementById(id).value;
+        }
+        var params_str = JSON.stringify(params)
+  
+  
+        $.ajax({
+          url:'/api/v1/result',
+          type:'POST',
+          dataType:"json",
+          data: {hi:'post', // url뒤에 data가 추가된다. api/v1/result?hi=hello 형식으로 장고 서버에 보내진다.
+                device_id:"{{device_info.id}}", 
+                command_id: $(this).attr('data-resource'), // command id가 명시되어있다.
+                body: params_str     
+          }, 
+          success:function(data){
+            var str = '';
+            for(var name in data){
+              str += '<li>'+name +'  :  '+ data[name]+'</li>';
+            }    
+            $(cmd_name).html('<ul>'+str+'</ul>');      
+          },
+          error:function(e){  
+            //alert(e.responseText);  
+          }
+        })
+      })
+  
+    </script>
+{% endblock %}

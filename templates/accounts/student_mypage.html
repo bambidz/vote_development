@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block title %} HomeWork | {{block.super}} {% endblock %}
+
+{% block content %}
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+.cus_section {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  max-width: px;
+  margin: 20px;
+  text-align: left;
+  font-family: arial;
+  padding: 10px;
+}
+
+.title {
+  color: grey;
+  font-size: 18px;
+}
+
+
+
+button:hover, a:hover {
+  opacity: 0.7;
+}
+</style>
+
+
+
+<div class="cus_section">
+  <h4 style="text-align:center">User Profile</h4>
+  <p>Name : {{Info.name}}</p>
+  <p>Student No : {{Info.student_no}}</p>
+  <p>Major : {{Info.major}}</p>
+  <p>Section : {{Info.section}}</p>
+  <p>Group : {{Info.group}}</p>
+</div>
+
+
+
+
+<div class="cus_section">
+    <h4 style="text-align:center">Score</h4>
+    <p> Middle Score : {{score_info.middle_score}}</p>
+    <p> Final Score : {{score_info.final_score}}</p>
+    <p> Attendance Score : {{score_info.attendance_score}}</p>
+    <p> Web Work Score : {{score_info.total_web_work_score}}</p>
+    <p> Pre-Class Score : {{score_info.total_pre_class_score}}</p>
+
+  </div>
+{% endblock %}
