@@ -66,6 +66,10 @@ INSTALLED_APPS = [
     'courses',
     'accounts',
     'votes',
+    'homework',
+    'django_extensions',
+    'grade',
+    
 ]
 
 MIDDLEWARE = [
@@ -146,7 +150,7 @@ USE_I18N = True
 
 USE_L10N = True
 
-USE_TZ = True
+USE_TZ = False
 
 MEDIA_URL = '/media/'
 

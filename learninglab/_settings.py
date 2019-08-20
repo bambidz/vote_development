@@ -76,6 +76,7 @@ INSTALLED_APPS = [
     'taggit',
 
     'blogs',
+
 ]
 
 # MathJax

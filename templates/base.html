@@ -15,7 +15,10 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" 
     integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
 
+    {% block stylesheets %}
+    {% endblock stylesheets %}
     {% mathjax_scripts %}
+
   </head>
   <body>
     <header>
@@ -70,6 +73,8 @@
               <li><a href="{% url 'courses:list' %}">Courses</a></li>
               <li class="disabled">Questions</a></li>
               <li><a href="{% url 'votes:voting' %}">Voting</a></li>
+              <li><a href="{% url 'accounts:student_MyPage' %}">MyPage</a></li>
+              <li><a href="{% url 'homework:homework_list' %}">Homework</a></li>
             </ul>
           </nav>
         </div>
@@ -80,6 +85,7 @@
     <div class="grid-container">
       <div class="grid-x grid-padding-x">
       </div>
+      
       {% if messages %}
             <div class="row">
                 <div class="small-6 small-centered columns">
@@ -93,10 +99,13 @@
             </div>
             </div>
       {% endif %}
+
       <div class="grid-container">
         <div class="grid-x grid-padding-x">
           <div class="large-12 cell">
-          {% block content %}{% endblock %}
+          {% block content %}
+          
+          {% endblock %}
           </div>
         </div>
       </div>
@@ -114,6 +123,23 @@
     <script src="{% static 'js/vendor/what-input.js' %}"></script>
     <script src="{% static 'js/vendor/foundation.js' %}"></script>
     <script src="{% static 'js/app.js' %}"></script>
-    {% block javascript %}{% endblock %}
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        // enable automatic line breaks (might look ugly)
+        CommonHTML: { linebreaks: { automatic: true } },
+        "HTML-CSS": { linebreaks: { automatic: true } },
+        SVG: { linebreaks: { automatic: true } },
+    
+        // enable $ for inline math -> use \$ for ordinary dollar-sign
+        tex2jax: {
+          inlineMath: [['$','$'], ['\\(','\\)']],
+          processEscapes: true
+        },
+      });
+    </script>
+    
+    {% block javascript %}
+    {% endblock %}
   </body>
 </html>

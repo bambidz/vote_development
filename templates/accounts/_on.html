@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% load static from staticfiles %}
+
+{% block title %} Student | {{block.super}} {% endblock %}
+
+{% block stylesheets %}
+    <link href="/static/css/ym/test.css" rel="stylesheet">
+    <link href="/static/css/ym/bootstrap.min.css" rel="stylesheet">
+{% endblock stylesheets %}
+
+{% block content %}
+
+
+    <!------ Include the above in your HEAD tag ---------->
+    <h5> Student </h5>
+    <a class="button expanded" href="#">Student Infomation</a>
+    <a class="button expanded" href="{% url 'votes:voting' %}">Voting</a>
+
+    <h1>{{Info.name}}</h1>
+    {{Info.major}}
+    {{Info.student_no}}
+    {{Info.section}}
+    {{Info.group}}
+    <div class="card">
+        <img src="img.jpg" alt="John" style="width:100%">
+        <h1>John Doe</h1>
+        <p class="title">CEO & Founder, Example</p>
+        <p>Harvard University</p>
+        <a href="#"><i class="fa fa-dribbble"></i></a> 
+        <a href="#"><i class="fa fa-twitter"></i></a> 
+        <a href="#"><i class="fa fa-linkedin"></i></a> 
+        <a href="#"><i class="fa fa-facebook"></i></a> 
+        <p><button>Contact</button></p>
+    </div>    
+   
+
+{% endblock %}
