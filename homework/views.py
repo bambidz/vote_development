@@ -2,13 +2,14 @@
 import datetime
 from django.shortcuts import render
 from django.urls import reverse_lazy
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import redirect, render
 from django.views.generic.base import TemplateView
 from django.utils.decorators import method_decorator
 from django.views.generic import CreateView, ListView, View
 from learninglab.decorators import student_required, teacher_required
 from django.conf import settings # 추천!
+from django.core import serializers
 
 
 from .models import *
@@ -163,6 +164,7 @@ class HomeworkStartView(View):
 
 class HomeworkEndView(View):
     def get(self, request):
+        print("Called of Endddddd=====================")
         
         return HttpResponse(status=200)
 
@@ -174,3 +176,23 @@ def get_student_info(user_id):
             return n
             break;
     return None
+
+
+def HomeworkAllList(request, hw_no):
+    ### return homework list
+    print(hw_no)
+    hw_list = Homework.objects.filter(Course_id = hw_no)
+    serialized_queryset = serializers.serialize('json', hw_list)
+
+    return JsonResponse(serialized_queryset, safe=False)
+
+
+class HomeworkTrackerView(View):
+    def get(self, request):
+        section_list = Section.objects.all()
+        
+
+        
+
+
+        return render(request, 'homework/homework_tracker.html', {'section_list':section_list})

@@ -11,7 +11,9 @@ urlpatterns = [
     path('detail/<int:no>', HomeworkDetailView, name='homework_detail'),
     path('api/v1/start', HomeworkStartView.as_view(), name='hw_start'),
     path('api/v1/end', HomeworkEndView.as_view(), name='hw_end'),
+    path('api/v1/homework/list/<int:hw_no>', HomeworkAllList, name='hw_all_list'),
+    path('tracker', HomeworkTrackerView.as_view(), name='homework_tracker'),
+
     # path('api/v1/viedo/one/start', HomeworkEndView.as_view(), name='hw_end'),
     # path('api/v1/viedo/two/start', HomeworkEndView.as_view(), name='hw_end'),
-
 ]
