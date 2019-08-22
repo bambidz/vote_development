@@ -187,12 +187,38 @@ def HomeworkAllList(request, hw_no):
     return JsonResponse(serialized_queryset, safe=False)
 
 
+
+def HomeworkCheckList(request, course_id, hw_no):
+    print(course_id, hw_no)
+
+    ### Get Section from Course 
+    sec_list = Section.objects.filter(course= course_id).values_list('pk', flat=True)
+    print(sec_list[0])
+
+    ### Get all Students in this Course
+    std_list = Student.objects.filter(section_id=sec_list[0]) | Student.objects.filter(section_id=sec_list[1]) | Student.objects.filter(section_id=sec_list[2]) | Student.objects.filter(section_id=sec_list[3])
+    print(len(std_list))
+
+
+    ### Get H/W time from tracker DB
+
+    '''
+    for std_list
+        get corresponding hw db
+        append to list
+    
+    make json
+
+    '''
+
+
+    return None
+
+
+
+
 class HomeworkTrackerView(View):
     def get(self, request):
-        section_list = Section.objects.all()
-        
+        course_list = Course.objects.all()
 
-        
-
-
-        return render(request, 'homework/homework_tracker.html', {'section_list':section_list})
+        return render(request, 'homework/homework_tracker.html', {'course_list':course_list})

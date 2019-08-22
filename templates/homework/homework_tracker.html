@@ -8,10 +8,10 @@
     <h2>Homework Tracker</h2>
 
     <h4>Course</h4>
-    <select name="section_list" id="sel" onchange="chageLangSelect()" >
-        <option>Select section</option>
-        {% for s in section_list %}
-            <option value="{{s.course_id}}">{{s}}</option>
+    <select name="course_list" id="sel" onchange="chageLangSelect()" >
+        <option>Select Course</option>
+        {% for s in course_list %}
+            <option value="{{s.pk}}">{{s}}</option>
         {% endfor %}
     </select>
 
@@ -34,9 +34,9 @@
         function chageLangSelect(){            
             // fetch homework list corresponding to sectoin & course
             var sel = document.getElementById("sel");
-            var hw_no = sel.options[sel.selectedIndex].value;
+            var course_no = sel.options[sel.selectedIndex].value;
 
-            fetch("api/v1/homework/list/"+hw_no) 
+            fetch("api/v1/homework/list/"+course_no) 
             .then(function(response){
                 return response.json();
             })
@@ -58,8 +58,15 @@
         }
 
         $("#btn_show").click(function() {
+            var sel = document.getElementById("sel");
+            var course_no = sel.options[sel.selectedIndex].value;
+
+            var sel = document.getElementById("hw_list");
+            var hw_no = sel.options[sel.selectedIndex].value;
+             
             // fetch student info & homework time  
-            
+            fetch("api/v1/homework/check/"+course_no+"/"+hw_no)
+            .then();
             
         
         });
